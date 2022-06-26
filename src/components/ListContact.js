@@ -8,7 +8,6 @@ import {
     Button,
     ButtonGroup,
     Modal,
-    Paper,
     Table,
     TableBody,
     TableCell,
@@ -67,16 +66,16 @@ const useStyles = makeStyles(({
 }));
 export default function ListContact() {
     const classes = useStyles();
-    const [textModal, setTextModal] = useState('');
+    const [textModal, setTextModal] = useState('Supprésion en cours ...');
     const [modalIsOpen, setModalOpen] = useState(false);
     const {loading, error, data} = useQuery(CONTACTS_LIST);
-    const {loadingDelete, errorDelete, dataDelete} = useMutation(CONTACTS_DELETE);
+    const [deleteContact, {errorDelete}] = useMutation(CONTACTS_DELETE);
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
     return (
         <div>
             <h2>Liste des contacts dans la BD</h2>
-            <TableContainer component={Paper}>
+            <TableContainer>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -110,8 +109,16 @@ export default function ListContact() {
                                         <Button><EditIcon/></Button>
                                         <Button color="secondary"
                                                 onClick={() => {
-                                                    setTextModal('Supréssion en cours du contact ayant l\'adresse ' + contact.email)
                                                     setModalOpen(true)
+                                                    deleteContact({
+                                                        variables: {
+                                                            data: contact._id
+                                                        }
+                                                    }).then(r => {
+                                                        setTimeout(() => {
+                                                            setTextModal('Le contact ayant pour adresse ' + contact.email+ ' vient d\'être supprimé')
+                                                        }, 1000)
+                                                    })
                                                 }}><DeleteIcon/></Button>
                                     </ButtonGroup>
                                 </TableCell>
@@ -124,6 +131,7 @@ export default function ListContact() {
                 open={modalIsOpen}
                 onClose={() => {
                     setModalOpen(false)
+                    window.location.reload()
                 }}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
@@ -131,7 +139,8 @@ export default function ListContact() {
                 <div className={classes.paper}>
                     <h2 id="simple-modal-title">Suppression</h2>
                     <p id="simple-modal-description">
-                        {textModal}
+                        {errorDelete && setTextModal('Erreur lors de suppréssion')}
+                        { textModal }
                     </p>
                 </div>
             </Modal>

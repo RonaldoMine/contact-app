@@ -1,6 +1,6 @@
 import { GraphQLBridge } from 'uniforms-bridge-graphql';
 import { buildASTSchema, parse } from 'graphql';
-const contactSchema = parse(`
+const contactSchema = buildASTSchema(parse(`
     type Contact {
         lastname: String!
         name: String!
@@ -14,7 +14,7 @@ const contactSchema = parse(`
         comment2: String
     }
      type Query { anything: ID }
-`);
+`)).getType('Contact');
 let details = [];
 function validator(type, value, input, text = '') {
     let regex;
@@ -41,10 +41,7 @@ function validator(type, value, input, text = '') {
         details.push({name: input, message: message})
     }
 }
-// @ts-ignore
-export const bridge = new GraphQLBridge(buildASTSchema(
-    contactSchema
-).getType('Contact'), function (model) {
+export const bridge = new GraphQLBridge(contactSchema, function (model) {
     details = []
     validator('String', model.lastname, 'lastname', 'Prénom')
     validator('String', model.name, 'name', 'Nom')
