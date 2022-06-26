@@ -1,0 +1,13 @@
+a{
+    text-decoration: none;
+}
+p{
+    padding: 10px;
+}
+p.active, p:hover{
+    background: #fff;
+    cursor: pointer;
+}
+p.active > a, p > a:hover, p:hover > a{
+    color: #3f51b5;
+}
