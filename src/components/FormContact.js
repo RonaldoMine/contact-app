@@ -49,8 +49,7 @@ export default function FormContact() {
             schema={schema}
             onSubmit={(model) => submitForm(mutation, model)}
         >
-            <AutoFields element="section"
-                         fields={['lastname', 'name']} />
+            <AutoFields />
             <ErrorsField/>
             <SubmitField>Enregisrer</SubmitField>
         </AutoForm>

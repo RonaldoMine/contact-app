@@ -10,6 +10,7 @@ const useStyles = makeStyles({
 });
 export function CustomMenuLink({ name, to, active}) {
     const classes = useStyles();
+    active = to === '/'
 
     let match = useRouteMatch({
         path: to,

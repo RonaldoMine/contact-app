@@ -26,7 +26,7 @@ function validator(type, value, input, text = '') {
             break
         case "Phone":
             regex = /^\(\d{3}\)\s?\d{3}-\d{4}$/;
-            message = 'Vous dévez renseigner un numéro de téléphone invalide'
+            message = 'Vous dévez renseigner un numéro de téléphone valide'
             break
         case "ZipCode":
             regex = /^[A-Z]{1}\d{1}[A-Z]{1} \d{1}[A-Z]{1}\d{1}$/;
@@ -37,6 +37,7 @@ function validator(type, value, input, text = '') {
             message = "Le champs '"+text+"' est obligatoire"
              break;
     }
+
     if (!value || !regex.test(value)){
         details.push({name: input, message: message})
     }

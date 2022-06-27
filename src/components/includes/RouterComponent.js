@@ -2,6 +2,7 @@ import {Route, Switch} from "react-router-dom";
 import Home from "../Home";
 import FormContact from "../FormContact";
 import ListContact from "../ListContact";
+import UpdateContact from "../UpdateContact";
 
 export default function RouterComponent(){
     return (
@@ -12,8 +13,11 @@ export default function RouterComponent(){
             <Route path="/form">
                 <FormContact />
             </Route>
-            <Route path="/contact">
+            <Route exact={true} path="/contact">
                 <ListContact />
+            </Route>
+            <Route path="/contact/update/:ID">
+                <UpdateContact />
             </Route>
         </Switch>
     );

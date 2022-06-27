@@ -15,6 +15,7 @@ import {
     TableHead,
     TableRow
 } from "@material-ui/core";
+import {Link} from "react-router-dom";
 
 const CONTACTS_LIST = parse(`
     query Contacts {
@@ -66,7 +67,7 @@ const useStyles = makeStyles(({
 }));
 export default function ListContact() {
     const classes = useStyles();
-    const [textModal, setTextModal] = useState('Supprésion en cours ...');
+    const [textModal, setTextModal] = useState('Suppréssion en cours ...');
     const [modalIsOpen, setModalOpen] = useState(false);
     const {loading, error, data} = useQuery(CONTACTS_LIST);
     const [deleteContact, {errorDelete}] = useMutation(CONTACTS_DELETE);
@@ -105,8 +106,8 @@ export default function ListContact() {
                                 <TableCell>{contact.comment2}</TableCell>
                                 <TableCell>
                                     <ButtonGroup variant="contained" color="primary"
-                                                 aria-label="contained primary button group">
-                                        <Button><EditIcon/></Button>
+                                                 aria-label="contained button group">
+                                        <Button color="default"><Link to={'/contact/update/'+contact._id}><EditIcon/></Link></Button>
                                         <Button color="secondary"
                                                 onClick={() => {
                                                     setModalOpen(true)
